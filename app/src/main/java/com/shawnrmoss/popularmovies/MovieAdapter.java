@@ -49,6 +49,7 @@ public class MovieAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
+        //Use picasso to load the image into the imageView
         Picasso.with(mContext).load(buildMovie_PosterURL(mMovies.get(position).getMovie_poster(), 3)).into(imageView);
         return imageView;
     }
