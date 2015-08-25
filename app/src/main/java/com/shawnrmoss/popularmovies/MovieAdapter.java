@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -32,6 +31,7 @@ public class MovieAdapter extends BaseAdapter {
     }
 
     public void addAll(Collection<? extends Movie> collection) {
+        mMovieData.clear();
         mMovieData.addAll(collection);
         this.notifyDataSetChanged();
     }
