@@ -24,6 +24,7 @@ public class MovieAdapter extends BaseAdapter {
         mMovies = m;
     }
 
+
     public int getCount() {
         return mMovies.size() > 0 ? mMovies.size() : 0;
     }
@@ -42,7 +43,7 @@ public class MovieAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {

@@ -31,8 +31,8 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
         //Build our URL to make our request
         //http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=[YOUR API KEY]
 
-        String sort = params[0];
-        Log.d(LOG_TAG, "The sort param is : " + sort);
+
+        Log.d(LOG_TAG, "FetchMoviesTask - execute");
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority("api.themoviedb.org")
@@ -86,6 +86,14 @@ public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<Movie> result){
+        if(result != null){
+            Log.d(LOG_TAG, "The result returned : " + result.size() + " movies");
+            //New data is back from the server.  Hooray!
+        }
     }
 
     private ArrayList<Movie> parseJson(String stream) {
