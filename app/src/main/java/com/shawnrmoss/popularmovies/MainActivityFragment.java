@@ -32,7 +32,6 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     private MovieAdapter mMovieAdapter;
-    private ArrayList<Movie> mMovies;
 
     public MainActivityFragment() {
     }
@@ -44,7 +43,7 @@ public class MainActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mMovieAdapter = new MovieAdapter(getActivity(),
-                                         mMovies = new ArrayList<>());
+                                         new ArrayList<Movie>());
 
         GridView gridview = (GridView) rootView.findViewById(R.id.gridview_movies);
         gridview.setAdapter(mMovieAdapter);
@@ -146,12 +145,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(ArrayList<Movie> results){
             if(results != null){
                 Log.d(LOG_TAG, "The result returned : " + results.size() + " movies");
-
-
-                for(Movie movieResult : results) {
-                    mMovies.add(movieResult);
-                }
-                mMovieAdapter.notifyDataSetChanged();
+                mMovieAdapter.addAll(results);
                 Log.d(LOG_TAG, "The adapter has : " + mMovieAdapter.getCount() + " movies");
             }
         }
