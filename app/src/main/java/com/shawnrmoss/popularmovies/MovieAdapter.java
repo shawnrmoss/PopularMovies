@@ -58,9 +58,9 @@ public class MovieAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            imageView.setLayoutParams(new GridView.LayoutParams(550, 825));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            imageView.setLayoutParams(new GridView.LayoutParams(550, 800) );
         } else {
             imageView = (ImageView) convertView;
         }
