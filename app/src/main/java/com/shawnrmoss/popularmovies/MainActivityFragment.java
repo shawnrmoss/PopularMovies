@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,8 +35,42 @@ import java.util.ArrayList;
 public class MainActivityFragment extends Fragment {
 
     private MovieAdapter mMovieAdapter;
+    private String mSortBy = "popularity.desc";
 
     public MainActivityFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.mainactivityfragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_most_popular) {
+            mSortBy = "popularity.desc";
+            updateMovies();
+        }
+
+        if (id == R.id.action_highest_rated) {
+            mSortBy = "vote_average.asc";
+            updateMovies();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -79,7 +116,7 @@ public class MainActivityFragment extends Fragment {
      */
     public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
 
-        private final String API_KEY = "840ec5fe6ac05a0d3b8cd264361a5543";
+        private final String API_KEY = "CHECKREADMEFORDETAILS";
         private final String LOG_TAG = MainActivity.class.getSimpleName();
 
         @Override
@@ -93,7 +130,7 @@ public class MainActivityFragment extends Fragment {
                     .appendPath("3")
                     .appendPath("discover")
                     .appendPath("movie")
-                    .appendQueryParameter("sort_by", "popularity.desc")
+                    .appendQueryParameter("sort_by", mSortBy)
                     .appendQueryParameter("api_key", API_KEY);
 
             InputStream stream = null;

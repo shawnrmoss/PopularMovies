@@ -91,7 +91,6 @@ public class DetailActivityFragment extends Fragment {
                 break;
         }
 
-
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http")
                 .authority("image.tmdb.org")
