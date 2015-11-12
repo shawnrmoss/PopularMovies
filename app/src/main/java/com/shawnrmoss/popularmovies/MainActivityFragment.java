@@ -1,6 +1,8 @@
 package com.shawnrmoss.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -34,10 +36,39 @@ import java.util.ArrayList;
  */
 public class MainActivityFragment extends Fragment {
 
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
     private MovieAdapter mMovieAdapter;
     private String mSortBy = "popularity.desc";
 
     public MainActivityFragment() {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateMovies();
+    }
+
+    private void updateMovies() {
+        FetchMoviesTask moviesTask = new FetchMoviesTask();
+        moviesTask.execute();
+    }
+
+    public void savePreferences(String prefName, String preValue){
+        Log.d(LOG_TAG, "savePreferences - " + prefName + " : " + preValue);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(prefName, preValue);
+        editor.commit();
+    }
+
+    public String getSavedPreferenceOrDefault(String prefName, String prefDefault){
+        SharedPreferences sharedPref = getActivity()
+                .getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String prefValue = sharedPref.getString(prefName, prefDefault);
+        Log.d(LOG_TAG, "getSavedPreferenceOrDefault - " + prefName + " : " + prefValue);
+        return prefValue;
     }
 
     @Override
@@ -61,12 +92,14 @@ public class MainActivityFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_most_popular) {
-            mSortBy = "popularity.desc";
+            //mSortBy = "popularity.desc";
+            savePreferences(getString(R.string.preference_sortBy_key), mSortBy = "popularity.desc");
             updateMovies();
         }
 
         if (id == R.id.action_highest_rated) {
-            mSortBy = "vote_average.asc";
+            //mSortBy = "vote_average.desc";
+            savePreferences(getString(R.string.preference_sortBy_key), mSortBy = "vote_average.desc");
             updateMovies();
         }
 
@@ -99,16 +132,9 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-    private void updateMovies() {
-        FetchMoviesTask moviesTask = new FetchMoviesTask();
-        moviesTask.execute();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateMovies();
-    }
+
+
 
 
     /**
@@ -116,30 +142,43 @@ public class MainActivityFragment extends Fragment {
      */
     public class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
 
-        private final String API_KEY = "CHECKREADMEFORDETAILS";
+        private final String API_KEY = "SEEREADMEFORDETAILS";
         private final String LOG_TAG = MainActivity.class.getSimpleName();
 
         @Override
         protected ArrayList<Movie> doInBackground(String... params) {
             //Build our URL to make our request
             //http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=[YOUR API KEY]
-            Log.d(LOG_TAG, "FetchMoviesTask - execute");
             Uri.Builder builder = new Uri.Builder();
-            builder.scheme("http")
-                    .authority("api.themoviedb.org")
-                    .appendPath("3")
-                    .appendPath("discover")
-                    .appendPath("movie")
-                    .appendQueryParameter("sort_by", mSortBy)
-                    .appendQueryParameter("api_key", API_KEY);
+
+            mSortBy = getSavedPreferenceOrDefault(getString(R.string.preference_sortBy_key), getString(R.string.preference_sortBy_default));
+            //Log.d(LOG_TAG, "Shared Pref SortBy : " + mSortBy);
+            if(mSortBy == "vote_average.desc")
+            {
+                builder.scheme("http")
+                        .authority("api.themoviedb.org")
+                        .appendPath("3")
+                        .appendPath("discover")
+                        .appendPath("movie")
+                        .appendQueryParameter("vote_count.gte", "1000")
+                        .appendQueryParameter("sort_by", mSortBy)
+                        .appendQueryParameter("api_key", API_KEY);
+
+            }
+            else {
+                builder.scheme("http")
+                        .authority("api.themoviedb.org")
+                        .appendPath("3")
+                        .appendPath("discover")
+                        .appendPath("movie")
+                        .appendQueryParameter("sort_by", mSortBy)
+                        .appendQueryParameter("api_key", API_KEY);
+            }
 
             InputStream stream = null;
             try {
                 //Get our url to make our network request
                 URL url = new URL(builder.build().toString());
-
-                Log.d(LOG_TAG, "The URL is: " + url.toString());
-
                 // Establish a connection
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
@@ -149,9 +188,8 @@ public class MainActivityFragment extends Fragment {
                 conn.setDoInput(true);
                 conn.connect();
 
-                int responseCode = conn.getResponseCode();
-                Log.d(LOG_TAG, "The response code is: " + responseCode + " " + conn.getResponseMessage());
-
+                //int responseCode = conn.getResponseCode();
+                //Log.d(LOG_TAG, "The response code is: " + responseCode + " " + conn.getResponseMessage());
                 stream = conn.getInputStream();
 
                 //Read the stream into a String of JSON
@@ -182,14 +220,11 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Movie> results){
             if(results != null){
-                Log.d(LOG_TAG, "The result returned : " + results.size() + " movies");
                 mMovieAdapter.addAll(results);
-                Log.d(LOG_TAG, "The adapter has : " + mMovieAdapter.getCount() + " movies");
             }
         }
 
         private ArrayList<Movie> parseJson(String stream) {
-
             String stringFromStream = stream;
             ArrayList<Movie> results = new ArrayList<Movie>();
             try {
@@ -205,9 +240,7 @@ public class MainActivityFragment extends Fragment {
                             Double.parseDouble(jsonMovieObject.getString("vote_average")),  //vote_average
                             jsonMovieObject.getString("overview")                           //plot_synopsis
                     );
-
                     results.add(movie);
-                    Log.d(LOG_TAG, "Added movie: " + movie.getTitle());
                 }
             } catch (JSONException e) {
                 System.err.println(e);
