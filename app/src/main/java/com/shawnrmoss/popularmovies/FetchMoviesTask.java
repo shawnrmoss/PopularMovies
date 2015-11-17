@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public abstract class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> implements iMoviesTask {
 
-    private final String API_KEY = "README";
+    private final String API_KEY = "840ec5fe6ac05a0d3b8cd264361a5543";
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     Activity activity;
 
