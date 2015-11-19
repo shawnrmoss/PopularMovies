@@ -1,9 +1,12 @@
-package com.shawnrmoss.popularmovies;
+package com.shawnrmoss.popularmovies.asynctasks;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.shawnrmoss.popularmovies.activities.MainActivity;
+import com.shawnrmoss.popularmovies.data.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +31,7 @@ public abstract class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     Activity activity;
 
-    FetchMoviesTask(Activity activity) {
+    public FetchMoviesTask(Activity activity) {
         this.activity = activity;
     }
     public abstract void onMoviesFetched(ArrayList<Movie> result);
@@ -138,6 +141,14 @@ public abstract class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<
         }
         return results;
     }
+}
 
 
+/**
+ * Created by shawn on 11/13/2015.
+ * Callbacks to return fetched movies.
+ */
+interface iMoviesTask {
+
+    void onMoviesFetched(ArrayList<Movie> result);
 }

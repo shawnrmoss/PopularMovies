@@ -1,15 +1,22 @@
-package com.shawnrmoss.popularmovies;
+package com.shawnrmoss.popularmovies.activities;
 
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.shawnrmoss.popularmovies.R;
+
+public class DetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_detail);
     }
+
+
+
 }

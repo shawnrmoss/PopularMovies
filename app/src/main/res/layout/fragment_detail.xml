@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/zero"
-        tools:context="com.shawnrmoss.popularmovies.DetailActivityFragment"
+        tools:context="com.shawnrmoss.popularmovies.fragments.DetailActivityFragment"
         android:orientation="vertical">
 
         <TextView
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/zero"
-                tools:context="com.shawnrmoss.popularmovies.DetailActivityFragment"
+                tools:context="com.shawnrmoss.popularmovies.fragments.DetailActivityFragment"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="10dp"
-                    tools:context="com.shawnrmoss.popularmovies.DetailActivityFragment"
+                    tools:context="com.shawnrmoss.popularmovies.fragments.DetailActivityFragment"
                     android:orientation="vertical">
 
                     <TextView android:id="@+id/release_date"

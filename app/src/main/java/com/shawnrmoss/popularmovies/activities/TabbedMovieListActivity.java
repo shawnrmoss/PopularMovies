@@ -1,9 +1,7 @@
-package com.shawnrmoss.popularmovies;
+package com.shawnrmoss.popularmovies.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -21,7 +19,12 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
+
+import com.shawnrmoss.popularmovies.data.Movie;
+import com.shawnrmoss.popularmovies.adapters.MovieAdapter;
+import com.shawnrmoss.popularmovies.R;
+import com.shawnrmoss.popularmovies.activities.DetailActivity;
+import com.shawnrmoss.popularmovies.asynctasks.FetchMoviesTask;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.shawnrmoss.popularmovies;
+package com.shawnrmoss.popularmovies.adapters;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.shawnrmoss.popularmovies.data.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

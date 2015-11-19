@@ -1,4 +1,4 @@
-package com.shawnrmoss.popularmovies;
+package com.shawnrmoss.popularmovies.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

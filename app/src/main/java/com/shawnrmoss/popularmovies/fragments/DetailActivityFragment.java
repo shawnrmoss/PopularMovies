@@ -1,27 +1,17 @@
-package com.shawnrmoss.popularmovies;
+package com.shawnrmoss.popularmovies.fragments;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shawnrmoss.popularmovies.data.Movie;
+import com.shawnrmoss.popularmovies.R;
 import com.squareup.picasso.Picasso;
-
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 /**
  * A placeholder fragment containing a simple view.
